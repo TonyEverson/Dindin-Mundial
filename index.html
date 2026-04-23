@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DinDin Mundo | Multi-Câmbio</title>
+    <style>
+        :root {
+            --bg: #050505;
+            --card: #121212;
+            --primary: #f0b90b;
+            --green: #0ecb81;
+            --text: #ffffff;
+            --gray: #848e9c;
+            --mp-blue: #009ee3;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 10px;
+        }
+
+        .top-info {
+            background: #1e2329;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .clock-section {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: bold;
+            border-bottom: 1px solid #2b3139;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .news-ticker {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .news-content {
+            display: inline-block;
+            animation: ticker 25s linear infinite;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .main-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid #2b3139;
+        }
+
+        .input-group {
+            background: #2b3139;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .input-group:focus-within { border-color: var(--primary); }
+
+        .input-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .input-header span { font-size: 18px; }
+        .input-header label { font-size: 11px; color: var(--primary); font-weight: bold; }
+
+        input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            width: 100%;
+            outline: none;
+        }
+
+        .currency-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .currency-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #1e2329;
+            border-radius: 12px;
+            border: 1px solid #2b3139;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+
+        .currency-row:hover { border-color: var(--primary); background: #2b3139; }
+
+        .coin-info { display: flex; align-items: center; gap: 15px; }
+        
+        .flag-img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+        .flag-emoji { font-size: 25px; width: 28px; text-align: center; }
+
+        .coin-text .symbol { font-weight: bold; font-size: 16px; display: block; }
+        .coin-text .name { font-size: 11px; color: var(--gray); }
+
+        .price-info { text-align: right; }
+        .converted-val { color: var(--green); font-size: 18px; font-weight: bold; display: block; }
+        .exchange-rate { font-size: 10px; color: var(--gray); }
+
+        /* ESTILO DO BOTÃO DE AJUDA */
+        .help-container {
+            border-top: 1px solid #2b3139;
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        .btn-help {
+            background-color: var(--mp-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 158, 227, 0.2);
+        }
+
+        .btn-help:active { transform: scale(0.98); }
+
+        .mp-icon {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            padding: 2px;
+        }
+
+        .footer { text-align: center; margin-top: 20px; font-size: 10px; color: var(--gray); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-info">
+        <div class="clock-section">
+            <span id="dateText">00/00/0000</span>
+            <span id="clockText">00:00:00</span>
+        </div>
+        <div class="news-ticker">
+            <div class="news-content">
+                ⚠️ MERCADO: Ibovespa opera em alta | 📈 Dólar apresenta volatilidade frente ao Real | 🌍 Economia Global: Inflação nos EUA impacta moedas emergentes...
+            </div>
+        </div>
+    </div>
+
+    <div class="main-card">
+        <div class="input-group">
+            <div class="input-header" id="currentBaseHeader">
+                <span id="baseFlag">🇧🇷</span>
+                <label id="baseLabel">VALOR EM BRL (REAL)</label>
+            </div>
+            <input type="number" id="mainInput" value="100" oninput="updateCalculations()">
+        </div>
+
+        <div class="currency-list" id="list">
+            <p id="loading" style="text-align:center; color: var(--primary);">Sincronizando mercado...</p>
+        </div>
+
+        <div class="help-container">
+            <button class="btn-help" onclick="abrirPagamento()">
+                <img src="https://img.icons8.com/color/48/mercado-pago.png" class="mp-icon">
+                Ajude o nosso projeto!
+            </button>
+        </div>
+    </div>
+
+    <div class="footer">
+        DinDin Mundo Pro • Fortaleza/CE • AwesomeAPI
+    </div>
+</div>
+
+<script>
+    const allCoins = [
+        { id: 'BRL', name: 'Real Brasileiro', flag: '🇧🇷', isEmoji: true },
+        { id: 'USD', name: 'Dólar Americano', flag: '🇺🇸', isEmoji: true },
+        { id: 'EUR', name: 'Euro', flag: '🇪🇺', isEmoji: true },
+        { id: 'GBP', name: 'Libra Esterlina', flag: '🇬🇧', isEmoji: true },
+        { id: 'PYG', name: 'Guarani Paraguaio', flag: '🇵🇾', isEmoji: true },
+        { id: 'BTC', name: 'Bitcoin', flag: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg', isEmoji: false }
+    ];
+
+    let baseCoin = 'BRL';
+    let ratesInBRL = { 'BRL': 1 };
+
+    // Função para abrir o link do Mercado Pago com segurança
+    function abrirPagamento() {
+        window.open('https://mpago.la/2sBpPRV', '_blank');
+    }
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('dateText').innerText = now.toLocaleDateString('pt-BR');
+        document.getElementById('clockText').innerText = now.toLocaleTimeString('pt-BR');
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    async function fetchData() {
+        try {
+            const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,GBP-BRL,PYG-BRL,BTC-BRL');
+            const data = await res.json();
+            
+            ratesInBRL['USD'] = parseFloat(data.USDBRL.bid);
+            ratesInBRL['EUR'] = parseFloat(data.EURBRL.bid);
+            ratesInBRL['GBP'] = parseFloat(data.GBPBRL.bid);
+            ratesInBRL['PYG'] = parseFloat(data.PYGBRL.bid);
+            ratesInBRL['BTC'] = parseFloat(data.BTCBRL.bid);
+
+            render();
+        } catch (e) {
+            document.getElementById('loading').innerText = "Erro de conexão.";
+        }
+    }
+
+    function switchBase(newId) {
+        baseCoin = newId;
+        const coinObj = allCoins.find(c => c.id === newId);
+        document.getElementById('baseLabel').innerText = `VALOR EM ${coinObj.id} (${coinObj.name.toUpperCase()})`;
+        const flagContainer = document.getElementById('baseFlag');
+        if(coinObj.isEmoji) {
+            flagContainer.innerHTML = coinObj.flag;
+        } else {
+            flagContainer.innerHTML = `<img src="${coinObj.flag}" class="flag-img">`;
+        }
+        render();
+    }
+
+    function render() {
+        const list = document.getElementById('list');
+        list.innerHTML = '';
+        const inputValue = parseFloat(document.getElementById('mainInput').value) || 0;
+        const otherCoins = allCoins.filter(c => c.id !== baseCoin);
+
+        otherCoins.forEach(c => {
+            const valueInBRL = inputValue * ratesInBRL[baseCoin];
+            const convertedFinal = valueInBRL / ratesInBRL[c.id];
+
+            let dec = 2;
+            if(c.id === 'BTC') dec = 6;
+            if(c.id === 'PYG') dec = 0;
+
+            const row = document.createElement('div');
+            row.className = 'currency-row';
+            row.onclick = () => switchBase(c.id);
+
+            const flagHtml = c.isEmoji ? `<span class="flag-emoji">${c.flag}</span>` : `<img src="${c.flag}" class="flag-img">`;
+
+            row.innerHTML = `
+                <div class="coin-info">
+                    ${flagHtml}
+                    <div class="coin-text">
+                        <span class="symbol">${c.id}</span>
+                        <span class="name">${c.name}</span>
+                    </div>
+                </div>
+                <div class="price-info">
+                    <span class="converted-val">${convertedFinal.toLocaleString('pt-BR', {minimumFractionDigits: dec, maximumFractionDigits: dec})}</span>
+                    <span class="exchange-rate">1 ${c.id} = R$ ${ratesInBRL[c.id].toLocaleString('pt-BR', {maximumFractionDigits: 4})}</span>
+                </div>
+            `;
+            list.appendChild(row);
+        });
+    }
+
+    function updateCalculations() {
+        if(ratesInBRL['USD']) render();
+    }
+
+    window.onload = fetchData;
+</script>
+
+</body>
+</html>
