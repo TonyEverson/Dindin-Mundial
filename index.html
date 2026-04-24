@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DinDin Mundo | Multi-Câmbio</title>
+    <title>DinDin Mundo Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg: #050505;
@@ -12,310 +13,304 @@
             --green: #0ecb81;
             --text: #ffffff;
             --gray: #848e9c;
+            --border: #2b3139;
             --mp-blue: #009ee3;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 10px;
-        }
-
-        .top-info {
-            background: #1e2329;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--primary);
+            padding: 0;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 5px;
         }
 
-        .clock-section {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--primary);
+        /* CABEÇALHO SOFISTICADO (ESTILO BLOOMBERG) */
+        .top-info { 
+            background: #1e2329; 
+            border-radius: 10px; 
+            margin: 10px; 
+            border: 1px solid var(--border); 
+            overflow: hidden; 
+            flex-shrink: 0; 
+        }
+        .clock-section { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 9px; 
+            color: var(--primary); 
+            padding: 6px 12px; 
             font-weight: bold;
-            border-bottom: 1px solid #2b3139;
-            padding-bottom: 5px;
-            margin-bottom: 5px;
+            background: rgba(0,0,0,0.2);
         }
-
-        .news-ticker {
-            overflow: hidden;
-            white-space: nowrap;
+        .news-ticker { 
+            display: flex; 
+            background: #000; 
+            align-items: center; 
+            height: 28px; 
+            border-top: 1px solid var(--border);
         }
-
-        .news-content {
-            display: inline-block;
-            animation: ticker 25s linear infinite;
-            font-size: 13px;
-            color: var(--gray);
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .main-card {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid #2b3139;
-        }
-
-        .input-group {
-            background: #2b3139;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid transparent;
-            transition: 0.3s;
-        }
-
-        .input-group:focus-within { border-color: var(--primary); }
-
-        .input-header {
-            display: flex;
+        .news-label { 
+            background: var(--primary); 
+            color: #000; 
+            padding: 0 10px; 
+            font-size: 8px; 
+            font-weight: 900; 
+            height: 100%; 
+            display: flex; 
             align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: 4px;
+        }
+        /* Ponto pulsante de Live */
+        .news-label::after {
+            content: ""; width: 5px; height: 5px; background: #ff4d4d; border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .news-ticker marquee { color: #eee; font-size: 11px; font-weight: 500; }
+        .news-credit { 
+            background: #161a1e; color: var(--gray); font-size: 8px; 
+            padding: 4px 12px; text-align: right; border-top: 1px solid var(--border);
         }
 
-        .input-header span { font-size: 18px; }
-        .input-header label { font-size: 11px; color: var(--primary); font-weight: bold; }
-
-        input {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            width: 100%;
-            outline: none;
+        /* MENU INFERIOR SIMÉTRICO */
+        .nav-menu {
+            position: fixed; bottom: 0; width: 100%;
+            background: rgba(30, 35, 41, 0.98);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 10px; border-top: 1px solid var(--border); z-index: 1000;
         }
-
-        .currency-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
+        .nav-item {
+            background: none; border: none; color: var(--gray);
+            font-size: 10px; text-transform: uppercase;
+            display: flex; flex-direction: column; align-items: center; cursor: pointer; width: 70px;
         }
+        .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
 
-        .currency-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: #1e2329;
-            border-radius: 12px;
-            border: 1px solid #2b3139;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 100%;
+        .btn-apoio-retangular {
+            background: var(--primary); color: #000; padding: 10px 15px;
+            border-radius: 12px; display: flex; align-items: center; gap: 8px;
+            font-size: 11px; font-weight: 800; border: none; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(240, 185, 11, 0.2);
         }
+        .btn-apoio-retangular img { width: 18px; height: 18px; }
 
-        .currency-row:hover { border-color: var(--primary); background: #2b3139; }
+        .page { display: none; padding: 10px; padding-bottom: 100px; flex: 1; overflow-y: auto; }
+        .page.active { display: flex; flex-direction: column; }
 
-        .coin-info { display: flex; align-items: center; gap: 15px; }
-        
-        .flag-img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
-        .flag-emoji { font-size: 25px; width: 28px; text-align: center; }
+        /* CONVERSOR */
+        .input-group { 
+            background: #1e2329; padding: 12px; border-radius: 10px; 
+            margin-bottom: 10px; border-left: 4px solid var(--primary); 
+        }
+        .input-header { font-size: 9px; color: var(--gray); font-weight: 700; margin-bottom: 2px; }
+        input { background: transparent; border: none; color: white; font-size: 24px; font-weight: bold; width: 100%; outline: none; }
 
-        .coin-text .symbol { font-weight: bold; font-size: 16px; display: block; }
-        .coin-text .name { font-size: 11px; color: var(--gray); }
-
+        .currency-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 15px; background: #191e24; border-radius: 10px; 
+            border: 1px solid var(--border); margin-bottom: 6px; 
+        }
+        .coin-info { display: flex; align-items: center; gap: 10px; }
+        .coin-info b { font-size: 15px; }
+        .flag-img-small { width: 20px; height: 20px; border-radius: 50%; }
         .price-info { text-align: right; }
-        .converted-val { color: var(--green); font-size: 18px; font-weight: bold; display: block; }
-        .exchange-rate { font-size: 10px; color: var(--gray); }
+        .converted-val { color: var(--green); font-size: 15px; font-weight: 800; }
+        .exchange-rate { font-size: 9px; color: var(--gray); font-family: monospace; }
 
-        /* ESTILO DO BOTÃO DE AJUDA */
-        .help-container {
-            border-top: 1px solid #2b3139;
-            padding-top: 20px;
-            text-align: center;
-        }
-
-        .btn-help {
-            background-color: var(--mp-blue);
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 158, 227, 0.2);
-        }
-
-        .btn-help:active { transform: scale(0.98); }
-
-        .mp-icon {
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            padding: 2px;
-        }
-
-        .footer { text-align: center; margin-top: 20px; font-size: 10px; color: var(--gray); }
+        /* CALCULADORA (PRESERVADA) */
+        .calc-container { display: flex; flex-direction: column; height: 100%; }
+        .history-top { background: #0a0a0a; border-radius: 8px; padding: 8px; border: 1px dashed var(--border); height: 60px; overflow-y: auto; margin-bottom: 8px; position: relative; }
+        .clear-h-btn { position: sticky; top: 0; float: right; color: #ff4d4d; font-size: 8px; font-weight: bold; cursor: pointer; background: #000; padding: 2px 5px; border-radius: 4px; }
+        .history-item { font-size: 10px; color: var(--gray); display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #1a1a1a; }
+        .calc-display { background: #000; color: var(--primary); font-size: 32px; text-align: right; padding: 15px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 8px; font-weight: bold; overflow-x: scroll; white-space: nowrap; scrollbar-width: none; }
+        .calc-display::-webkit-scrollbar { display: none; }
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; flex: 1; }
+        .calc-btn { background: #1e2329; border: 1px solid var(--border); color: white; font-size: 18px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .calc-btn.op { color: var(--primary); font-weight: bold; }
+        .calc-btn.equal { background: var(--primary); color: #000; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="top-info">
-        <div class="clock-section">
-            <span id="dateText">00/00/0000</span>
-            <span id="clockText">00:00:00</span>
-        </div>
-        <div class="news-ticker">
-            <div class="news-content">
-                ⚠️ MERCADO: Ibovespa opera em alta | 📈 Dólar apresenta volatilidade frente ao Real | 🌍 Economia Global: Inflação nos EUA impacta moedas emergentes...
+    <div id="cotacaoPage" class="page active">
+        <div class="top-info">
+            <div class="clock-section"><span class="dateText"></span><span class="clockText"></span></div>
+            <div class="news-ticker">
+                <div class="news-label">LIVE MARKET</div>
+                <marquee class="newsContent">Sincronizando terminais Investing.com...</marquee>
             </div>
+            <div class="news-credit">Fonte: Investing.com Brasil</div>
         </div>
-    </div>
-
-    <div class="main-card">
         <div class="input-group">
-            <div class="input-header" id="currentBaseHeader">
-                <span id="baseFlag">🇧🇷</span>
-                <label id="baseLabel">VALOR EM BRL (REAL)</label>
-            </div>
+            <div class="input-header"><span id="baseFlag">🇧🇷</span> <span id="baseLabel">BRL</span></div>
             <input type="number" id="mainInput" value="100" oninput="updateCalculations()">
         </div>
+        <div id="list"></div>
+    </div>
 
-        <div class="currency-list" id="list">
-            <p id="loading" style="text-align:center; color: var(--primary);">Sincronizando mercado...</p>
-        </div>
-
-        <div class="help-container">
-            <button class="btn-help" onclick="abrirPagamento()">
-                <img src="https://img.icons8.com/color/48/mercado-pago.png" class="mp-icon">
-                Ajude o nosso projeto!
-            </button>
+    <div id="calcPage" class="page">
+        <div class="calc-container">
+            <div class="history-top">
+                <span class="clear-h-btn" onclick="clearHistory()">LIMPAR</span>
+                <div id="historyList"></div>
+            </div>
+            <div class="calc-display" id="calcDisplay">0</div>
+            <div class="calc-grid">
+                <button class="calc-btn op" onclick="clearCalc()">C</button>
+                <button class="calc-btn op" onclick="calcSquareRoot()">√</button>
+                <button class="calc-btn op" onclick="appendCalc('%')">%</button>
+                <button class="calc-btn op" onclick="appendCalc('/')">÷</button>
+                <button class="calc-btn" onclick="appendCalc('7')">7</button>
+                <button class="calc-btn" onclick="appendCalc('8')">8</button>
+                <button class="calc-btn" onclick="appendCalc('9')">9</button>
+                <button class="calc-btn op" onclick="appendCalc('*')">×</button>
+                <button class="calc-btn" onclick="appendCalc('4')">4</button>
+                <button class="calc-btn" onclick="appendCalc('5')">5</button>
+                <button class="calc-btn" onclick="appendCalc('6')">6</button>
+                <button class="calc-btn op" onclick="appendCalc('-')">-</button>
+                <button class="calc-btn" onclick="appendCalc('1')">1</button>
+                <button class="calc-btn" onclick="appendCalc('2')">2</button>
+                <button class="calc-btn" onclick="appendCalc('3')">3</button>
+                <button class="calc-btn op" onclick="appendCalc('+')">+</button>
+                <button class="calc-btn" onclick="backspaceCalc()"><i class="fas fa-backspace"></i></button>
+                <button class="calc-btn" onclick="appendCalc('0')">0</button>
+                <button class="calc-btn" onclick="appendCalc('.')">,</button>
+                <button class="calc-btn equal" onclick="computeCalc()">=</button>
+            </div>
         </div>
     </div>
 
-    <div class="footer">
-        DinDin Mundo Pro • Fortaleza/CE • AwesomeAPI
-    </div>
-</div>
+    <nav class="nav-menu">
+        <button class="nav-item active" onclick="showPage('cotacaoPage', this)"><i class="fas fa-chart-line"></i><span>Câmbio</span></button>
+        <button class="btn-apoio-retangular" onclick="window.open('https://mpago.la/2sBpPRV')"><img src="https://img.icons8.com/color/48/mercado-pago.png" alt="MP">Apoie nosso projeto!</button>
+        <button class="nav-item" onclick="showPage('calcPage', this)"><i class="fas fa-calculator"></i><span>Calc</span></button>
+    </nav>
 
 <script>
+    function showPage(id, btn) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // CALCULADORA (INALTERADA)
+    let calcExp = "";
+    let history = [];
+    function formatDisplay(val) {
+        if (!val) return "0";
+        return val.replace(/(\d+\.?\d*)/g, (match) => {
+            let n = parseFloat(match);
+            return isNaN(n) ? match : n.toLocaleString('pt-BR');
+        });
+    }
+    function appendCalc(v) { calcExp += v; updateDisplay(); }
+    function clearCalc() { calcExp = ""; updateDisplay(); }
+    function backspaceCalc() { calcExp = calcExp.slice(0,-1); updateDisplay(); }
+    function updateDisplay() { 
+        const display = document.getElementById('calcDisplay');
+        display.innerText = formatDisplay(calcExp) || "0"; 
+        display.scrollLeft = display.scrollWidth;
+    }
+    function computeCalc() {
+        try {
+            let cleanExp = calcExp.replace(/%/g, '/100');
+            let res = eval(cleanExp).toString();
+            addHistory(calcExp, res);
+            calcExp = res;
+            updateDisplay();
+        } catch { clearCalc(); }
+    }
+    function calcSquareRoot() {
+        try {
+            let res = Math.sqrt(eval(calcExp)).toString();
+            addHistory(`√(${calcExp})`, res);
+            calcExp = res;
+            updateDisplay();
+        } catch { clearCalc(); }
+    }
+    function addHistory(e, r) {
+        history.unshift({e, r});
+        if(history.length > 10) history.pop();
+        renderHistory();
+    }
+    function renderHistory() {
+        document.getElementById('historyList').innerHTML = history.map(i => `<div class="history-item"><span>${i.e}</span><b>${i.r}</b></div>`).join('');
+    }
+    function clearHistory() { history = []; renderHistory(); }
+
+    // COTAÇÕES
     const allCoins = [
-        { id: 'BRL', name: 'Real Brasileiro', flag: '🇧🇷', isEmoji: true },
-        { id: 'USD', name: 'Dólar Americano', flag: '🇺🇸', isEmoji: true },
-        { id: 'EUR', name: 'Euro', flag: '🇪🇺', isEmoji: true },
-        { id: 'GBP', name: 'Libra Esterlina', flag: '🇬🇧', isEmoji: true },
-        { id: 'PYG', name: 'Guarani Paraguaio', flag: '🇵🇾', isEmoji: true },
-        { id: 'BTC', name: 'Bitcoin', flag: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg', isEmoji: false }
+        { id: 'USD', flag: '🇺🇸', isEmoji: true }, { id: 'EUR', flag: '🇪🇺', isEmoji: true },
+        { id: 'GBP', flag: '🇬🇧', isEmoji: true }, { id: 'CAD', flag: '🇨🇦', isEmoji: true },
+        { id: 'CNY', flag: '🇨🇳', isEmoji: true }, { id: 'CHF', flag: '🇨🇭', isEmoji: true },
+        { id: 'JPY', flag: '🇯🇵', isEmoji: true }, { id: 'PYG', flag: '🇵🇾', isEmoji: true },
+        { id: 'BTC', flag: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg', isEmoji: false },
+        { id: 'BRL', flag: '🇧🇷', isEmoji: true }
     ];
-
-    let baseCoin = 'BRL';
-    let ratesInBRL = { 'BRL': 1 };
-
-    // Função para abrir o link do Mercado Pago com segurança
-    function abrirPagamento() {
-        window.open('https://mpago.la/2sBpPRV', '_blank');
-    }
-
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('dateText').innerText = now.toLocaleDateString('pt-BR');
-        document.getElementById('clockText').innerText = now.toLocaleTimeString('pt-BR');
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+    let baseCoin = 'BRL', rates = { 'BRL': 1 };
 
     async function fetchData() {
         try {
-            const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,GBP-BRL,PYG-BRL,BTC-BRL');
+            const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,GBP-BRL,PYG-BRL,BTC-BRL,CAD-BRL,CHF-BRL,JPY-BRL,CNY-BRL');
             const data = await res.json();
-            
-            ratesInBRL['USD'] = parseFloat(data.USDBRL.bid);
-            ratesInBRL['EUR'] = parseFloat(data.EURBRL.bid);
-            ratesInBRL['GBP'] = parseFloat(data.GBPBRL.bid);
-            ratesInBRL['PYG'] = parseFloat(data.PYGBRL.bid);
-            ratesInBRL['BTC'] = parseFloat(data.BTCBRL.bid);
-
-            render();
-        } catch (e) {
-            document.getElementById('loading').innerText = "Erro de conexão.";
-        }
-    }
-
-    function switchBase(newId) {
-        baseCoin = newId;
-        const coinObj = allCoins.find(c => c.id === newId);
-        document.getElementById('baseLabel').innerText = `VALOR EM ${coinObj.id} (${coinObj.name.toUpperCase()})`;
-        const flagContainer = document.getElementById('baseFlag');
-        if(coinObj.isEmoji) {
-            flagContainer.innerHTML = coinObj.flag;
-        } else {
-            flagContainer.innerHTML = `<img src="${coinObj.flag}" class="flag-img">`;
-        }
-        render();
+            rates['USD'] = parseFloat(data.USDBRL.bid); rates['EUR'] = parseFloat(data.EURBRL.bid);
+            rates['GBP'] = parseFloat(data.GBPBRL.bid); rates['PYG'] = parseFloat(data.PYGBRL.bid);
+            rates['BTC'] = parseFloat(data.BTCBRL.bid); rates['CAD'] = parseFloat(data.CADBRL.bid);
+            rates['CHF'] = parseFloat(data.CHFBRL.bid); rates['JPY'] = parseFloat(data.JPYBRL.bid);
+            rates['CNY'] = parseFloat(data.CNYBRL.bid); render();
+        } catch (e) {}
     }
 
     function render() {
-        const list = document.getElementById('list');
+        const list = document.getElementById('list'); 
+        if(!list) return;
         list.innerHTML = '';
-        const inputValue = parseFloat(document.getElementById('mainInput').value) || 0;
-        const otherCoins = allCoins.filter(c => c.id !== baseCoin);
-
-        otherCoins.forEach(c => {
-            const valueInBRL = inputValue * ratesInBRL[baseCoin];
-            const convertedFinal = valueInBRL / ratesInBRL[c.id];
-
-            let dec = 2;
-            if(c.id === 'BTC') dec = 6;
-            if(c.id === 'PYG') dec = 0;
-
-            const row = document.createElement('div');
-            row.className = 'currency-row';
-            row.onclick = () => switchBase(c.id);
-
-            const flagHtml = c.isEmoji ? `<span class="flag-emoji">${c.flag}</span>` : `<img src="${c.flag}" class="flag-img">`;
-
-            row.innerHTML = `
-                <div class="coin-info">
-                    ${flagHtml}
-                    <div class="coin-text">
-                        <span class="symbol">${c.id}</span>
-                        <span class="name">${c.name}</span>
-                    </div>
-                </div>
-                <div class="price-info">
-                    <span class="converted-val">${convertedFinal.toLocaleString('pt-BR', {minimumFractionDigits: dec, maximumFractionDigits: dec})}</span>
-                    <span class="exchange-rate">1 ${c.id} = R$ ${ratesInBRL[c.id].toLocaleString('pt-BR', {maximumFractionDigits: 4})}</span>
-                </div>
-            `;
-            list.appendChild(row);
+        const val = parseFloat(document.getElementById('mainInput').value) || 0;
+        allCoins.filter(c => c.id !== baseCoin).forEach(c => {
+            const res = (val * rates[baseCoin]) / rates[c.id];
+            const d = c.id === 'BTC' ? 6 : (['PYG', 'JPY'].includes(c.id) ? 0 : 2);
+            const div = document.createElement('div');
+            div.className = 'currency-row';
+            div.onclick = () => { 
+                baseCoin = c.id; 
+                document.getElementById('baseLabel').innerText = c.id; 
+                document.getElementById('baseFlag').innerHTML = c.isEmoji ? c.flag : `<img src="${c.flag}" class="flag-img-small">`; 
+                render(); 
+            };
+            const flag = c.isEmoji ? `<span>${c.flag}</span>` : `<img src="${c.flag}" class="flag-img-small">`;
+            div.innerHTML = `<div class="coin-info">${flag}<b>${c.id}</b></div>
+                             <div class="price-info"><span class="converted-val">${res.toLocaleString('pt-BR',{minimumFractionDigits:d})}</span><br><small class="exchange-rate">1 ${c.id} = R$ ${rates[c.id].toFixed(2)}</small></div>`;
+            list.appendChild(div);
         });
     }
 
-    function updateCalculations() {
-        if(ratesInBRL['USD']) render();
-    }
+    function updateCalculations() { render(); }
+    
+    setInterval(() => {
+        const n = new Date();
+        document.querySelector('.dateText').innerText = n.toLocaleDateString('pt-BR');
+        document.querySelector('.clockText').innerText = n.toLocaleTimeString('pt-BR');
+    }, 1000);
 
-    window.onload = fetchData;
+    window.onload = () => {
+        fetchData();
+        fetch('https://api.rss2json.com/v1/api.json?rss_url=https://br.investing.com/rss/news_25.rss')
+        .then(r => r.json()).then(d => {
+            if(d.items) {
+                document.querySelector('.newsContent').innerText = d.items.map(i => ` • ${i.title.toUpperCase()}`).join(' ');
+            }
+        }).catch(() => {
+            document.querySelector('.newsContent').innerText = "MERCADO HOJE: EM ATUALIZAÇÃO...";
+        });
+    };
 </script>
-
 </body>
 </html>
+
